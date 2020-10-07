@@ -1,9 +1,15 @@
 
+--Student Name : Radhika Balasubramaniam
+-- Project Description : Build the database schema for the Employee
 
+
+-- Drop the tables if it already exists
 DROP TABLE IF EXISTS Employee;
 DROP TABLE IF EXISTS Title;
 DROP TABLE IF EXISTS Department;
-
+DROP TABLE IF EXISTS Dept_Emp;
+DROP TABLE IF EXISTS Dept_Manager;
+DROP TABLE IF EXISTS Salary;
 
 -- Create Table Employee  
 Create Table Employee (
@@ -20,31 +26,63 @@ Create Table Title (
   Title_Id	varchar(10) PRIMARY KEY,
   Title varchar(100) NOT NULL);
 
+				   
+-- Add foreign key to employee table with Title 
+--Deleting a title is restricted if there is still employees with the title. 
+-- if title_id is updated the changes are cascaded to the Emp_Title_Id in the employees.
+ALTER TABLE ONLY Employee
+    ADD CONSTRAINT emp_title_id_fkey FOREIGN KEY (Emp_Title_Id) REFERENCES title(title_id) 
+	ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
 -- Create Table department
 Create Table Department (
   Dept_No varchar(10) PRIMARY KEY,
   Dept_Name varchar(50) NOT NULL);
-  
+ 
+ -- Create Table Dept_Emp
 Create Table Dept_Emp (
 	Emp_No int NOT NULL,
 	Dept_No varchar(10) NOT NULL,
 	Primary Key (Emp_No, Dept_No));
 
 -- Add foreign key to Dept_Emp for Emp_No. 
--- If employee is deleted then the record is deleted. If emp_no is updated, the updates are cascaded in the Dept_Emp
+-- If employee is deleted from employee table then the record is deleted from Dept_Emp (no longer working). 
+-- If emp_no is updated from employee table, the updates are cascaded in the Dept_Emp
 Alter Table only Dept_Emp Add CONSTRAINT Emp_No_fkey FOREIGN KEY (Emp_No) REFERENCES Employee(Emp_No) 
                        ON UPDATE CASCADE ON DELETE CASCADE;
 
 -- Add foreign key to Dept_Emp for Dept_No. 
---If department is deleted with employees in department, it is restricted. If no records for corresponding dept in Dept_Emp it is deleted.
--- if dept_no is updated the changes are cascaded to the employees in the dept.
-Alter Table only Dept_Emp Add CONSTRAINT Dept_No_fkey FOREIGN KEY (Dept_No) REFERENCES Employee(Emp_No) 
+--Deletion of Department is restricted if there are employees still with the department.
+-- if dept_no is updated in department, then the changes are cascaded to the employees in the dept.
+Alter Table only Dept_Emp Add CONSTRAINT Dept_No_fkey FOREIGN KEY (Dept_No) REFERENCES Department(Dept_No) 
                        ON UPDATE CASCADE ON DELETE RESTRICT;
-					   
-					   
--- Add foreign key to employee table with Title 
-ALTER TABLE ONLY Employee
-    ADD CONSTRAINT emp_title_id_fkey FOREIGN KEY (Emp_Title_Id) REFERENCES title(title_id) ON UPDATE CASCADE ON DELETE RESTRICT;
-;
 
+-- Create Table Dept_Manager
+Create Table Dept_Manager (	
+	Dept_No varchar(10) NOT NULL,
+	Emp_No int NOT NULL,
+	Primary Key (Dept_No, Emp_No));
 
+-- Add foreign key to Dept_Manager for Emp_No. 
+-- If employee is deleted from employee table it is restricted. The department should have new manager so restricted. 
+-- If emp_no is updated from employee table, the updates are cascaded in the Dept_Manager
+Alter Table only Dept_Manager Add CONSTRAINT Emp_No_fkey FOREIGN KEY (Emp_No) REFERENCES Employee(Emp_No) 
+                       ON UPDATE CASCADE ON DELETE RESTRICT;
+
+-- Add foreign key to Dept_Manager for Dept_No. 
+--Deleting a department is restricted if there is still a  manager for the department. 
+-- if dept_no is updated the changes are cascaded to the employees in the dept.
+Alter Table only Dept_Manager Add CONSTRAINT Dept_No_fkey FOREIGN KEY (Dept_No) REFERENCES Department(Dept_No)
+                       ON UPDATE CASCADE ON DELETE RESTRICT;
+
+ -- Create Table Salary
+Create Table Salary (	
+	Emp_No int NOT NULL Primary Key ,
+	Salary float);
+
+-- Add foreign key to Dept_Manager for Emp_No. 
+-- If employee is deleted from employee table it is deleted, because salary is associated with employee. 
+-- If emp_no is updated from employee table, the updates are cascaded in the Salary
+Alter Table only Salary Add CONSTRAINT Emp_No_fkey FOREIGN KEY (Emp_No) REFERENCES Employee(Emp_No) 
+                       ON UPDATE CASCADE ON DELETE CASCADE;
