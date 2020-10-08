@@ -1,4 +1,4 @@
--- List the following details of each employee: employee number, last name, first name, sex, and salary.
+--1. List the following details of each employee: employee number, last name, first name, sex, and salary.
 
 select 
 	  e.emp_no as "Employee Number",
@@ -8,16 +8,15 @@ select
 	  s.salary  as "Salary"
 	  from employee e join salary s on s.emp_no = e.emp_no;
 
--- List first name, last name, and hire date for employees who were hired in 1986.
+--2. List first name, last name, and hire date for employees who were hired in 1986.
 
-select 
-	  last_name as "Last Name",
+select 	  
 	  first_name as "First Name",
+	  last_name as "Last Name",
 	  hire_date as "Hire Date" 
 	  from employee where date_part('year', hire_date) = 1986
 	  
-	  
--- List the manager of each department with the following information:
+--3. List the manager of each department with the following information:
 --      department number, department name, the manager's employee number, last name, first name.
 
 select 
@@ -30,7 +29,7 @@ select
 	               join dept_manager dm on dm.dept_no = d.dept_no
 				   join employee e on dm.emp_no = e.emp_no
 	
--- List the department of each employee with the following information: employee number, last name, first name, and department name
+--4. List the department of each employee with the following information: employee number, last name, first name, and department name
 select      
 	   e.emp_no as "Employee Number",
 	   e.last_name as "Last Name",
@@ -40,3 +39,9 @@ select
 	               join dept_emp de on de.emp_no = e.emp_no 
 				   join department d on de.dept_no = d.dept_no
 				   
+-- 5. list first name, last name, and sex for employees whose first name is "Hercules" and last names begin with "B."
+select 	  
+	  first_name as "First Name",
+	  last_name as "Last Name",
+	  sex as "Sex" 
+	  from employee where first_name = 'Hercules' and last_name like 'B%'
