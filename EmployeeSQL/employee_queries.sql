@@ -25,9 +25,18 @@ select
 	   d.dept_name as "Department Name",
 	   e.emp_no as "Manager Employee Number",
 	   e.last_name as "Manager Last Name",
-	   e.first_name as "Employee First Name"
+	   e.first_name as "Manager First Name"
 	   from department d 
 	               join dept_manager dm on dm.dept_no = d.dept_no
 				   join employee e on dm.emp_no = e.emp_no
-	                   
-       
+	
+-- List the department of each employee with the following information: employee number, last name, first name, and department name
+select      
+	   e.emp_no as "Employee Number",
+	   e.last_name as "Last Name",
+	   e.first_name as "First Name",
+	   d.dept_name as "Department Name"
+	   from employee e 
+	               join dept_emp de on de.emp_no = e.emp_no 
+				   join department d on de.dept_no = d.dept_no
+				   
