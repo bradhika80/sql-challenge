@@ -45,3 +45,25 @@ select
 	  last_name as "Last Name",
 	  sex as "Sex" 
 	  from employee where first_name = 'Hercules' and last_name like 'B%'
+	  
+-- 6. List all employees in the Sales department, including their employee number, last name, first name, and department name.
+select      
+	   e.emp_no as "Employee Number",
+	   e.last_name as "Last Name",
+	   e.first_name as "First Name",
+	   d.dept_name as "Department Name"
+	   from employee e 
+	               join dept_emp de on de.emp_no = e.emp_no 
+				   join department d on de.dept_no = d.dept_no 
+		where d.dept_name = 'Sales'
+
+--7. List all employees in the Sales and Development departments, including their employee number, last name, first name, and department name
+select      
+	   e.emp_no as "Employee Number",
+	   e.last_name as "Last Name",
+	   e.first_name as "First Name",
+	   d.dept_name as "Department Name"
+	   from employee e 
+	               join dept_emp de on de.emp_no = e.emp_no 
+				   join department d on de.dept_no = d.dept_no 
+		where d.dept_name in ('Sales', 'Development')
