@@ -15,3 +15,19 @@ select
 	  first_name as "First Name",
 	  hire_date as "Hire Date" 
 	  from employee where date_part('year', hire_date) = 1986
+	  
+	  
+-- List the manager of each department with the following information:
+--      department number, department name, the manager's employee number, last name, first name.
+
+select 
+       d.dept_no as "Department Number",
+	   d.dept_name as "Department Name",
+	   e.emp_no as "Manager Employee Number",
+	   e.last_name as "Manager Last Name",
+	   e.first_name as "Employee First Name"
+	   from department d 
+	               join dept_manager dm on dm.dept_no = d.dept_no
+				   join employee e on dm.emp_no = e.emp_no
+	                   
+       
