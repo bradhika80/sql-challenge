@@ -2,15 +2,6 @@
 --Student Name : Radhika Balasubramaniam
 -- Project Description : Build the database schema for the Employee
 
-
--- -- Drop the tables if it already exists
--- DROP TABLE IF EXISTS Employee;
--- DROP TABLE IF EXISTS Title;
--- DROP TABLE IF EXISTS Department;
--- DROP TABLE IF EXISTS Dept_Emp;
--- DROP TABLE IF EXISTS Dept_Manager;
--- DROP TABLE IF EXISTS Salary;
-
 -- Create Table Employee  
 Create Table Employee (
   Emp_No int PRIMARY KEY,
@@ -65,13 +56,13 @@ Create Table Dept_Manager (
 	Primary Key (Dept_No, Emp_No));
 
 -- Add foreign key to Dept_Manager for Emp_No. 
--- If employee is deleted from employee table it is restricted. The department should have new manager so restricted. 
+-- Deleting an employee from employee table it is restricted. The department should be asssigned new manager. 
 -- If emp_no is updated from employee table, the updates are cascaded in the Dept_Manager
 Alter Table only Dept_Manager Add CONSTRAINT Emp_No_fkey FOREIGN KEY (Emp_No) REFERENCES Employee(Emp_No) 
                        ON UPDATE CASCADE ON DELETE RESTRICT;
 
 -- Add foreign key to Dept_Manager for Dept_No. 
---Deleting a department is restricted if there is still a  manager for the department. 
+--Deleting a department is restricted if there is still a  manager record for the department. 
 -- if dept_no is updated the changes are cascaded to the employees in the dept.
 Alter Table only Dept_Manager Add CONSTRAINT Dept_No_fkey FOREIGN KEY (Dept_No) REFERENCES Department(Dept_No)
                        ON UPDATE CASCADE ON DELETE RESTRICT;
@@ -81,8 +72,8 @@ Create Table Salary (
 	Emp_No int NOT NULL Primary Key ,
 	Salary float);
 
--- Add foreign key to Dept_Manager for Emp_No. 
--- If employee is deleted from employee table it is deleted, because salary is associated with employee. 
+-- Add foreign key to Salary for Emp_No. 
+-- If employee is deleted from employee table the record is deleted from salary, because salary is associated with employee. 
 -- If emp_no is updated from employee table, the updates are cascaded in the Salary
 Alter Table only Salary Add CONSTRAINT Emp_No_fkey FOREIGN KEY (Emp_No) REFERENCES Employee(Emp_No) 
                        ON UPDATE CASCADE ON DELETE CASCADE;
