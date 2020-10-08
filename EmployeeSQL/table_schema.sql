@@ -3,13 +3,13 @@
 -- Project Description : Build the database schema for the Employee
 
 
--- Drop the tables if it already exists
-DROP TABLE IF EXISTS Employee;
-DROP TABLE IF EXISTS Title;
-DROP TABLE IF EXISTS Department;
-DROP TABLE IF EXISTS Dept_Emp;
-DROP TABLE IF EXISTS Dept_Manager;
-DROP TABLE IF EXISTS Salary;
+-- -- Drop the tables if it already exists
+-- DROP TABLE IF EXISTS Employee;
+-- DROP TABLE IF EXISTS Title;
+-- DROP TABLE IF EXISTS Department;
+-- DROP TABLE IF EXISTS Dept_Emp;
+-- DROP TABLE IF EXISTS Dept_Manager;
+-- DROP TABLE IF EXISTS Salary;
 
 -- Create Table Employee  
 Create Table Employee (
